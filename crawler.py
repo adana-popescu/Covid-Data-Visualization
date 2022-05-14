@@ -3,7 +3,7 @@ import csv
 from bs4 import BeautifulSoup
 
 
-def __crawl__():
+def crawl():
     URL = "https://www.worldometers.info/coronavirus/"
     response = requests.get(URL).text
     soup = BeautifulSoup(response, 'html.parser')
@@ -25,7 +25,11 @@ def __crawl__():
                 country.append(cell_text)
 
                 count += 1
-                if count == 14:
+                if count == 15:
                     break
             if country[0] != "":
                 writer.writerow(country)
+
+
+if __name__ == '__main__':
+    crawl()
