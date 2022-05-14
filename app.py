@@ -1,3 +1,5 @@
+import math
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -41,7 +43,41 @@ if selection == "All":
         st.plotly_chart(fig_pie)
 
     elif chart_selection == "Bar":
-        pass
+        st.write("Warning: data is incomplete for some countries")
+
+        number = st.slider(
+            "Number of countries sorted by total number of cases: ", 5, 25)
+
+        chart_data = all_df[['Country,Other', 'TotalDeaths', 'TotalRecovered', 'ActiveCases']]
+        chart_data = chart_data.iloc[:number]
+
+        total_deaths = [i.replace(' ', '').replace(',', '') for i in chart_data['TotalDeaths'].to_list()]
+        total_deaths = [int(i) if i != '' else 0 for i in total_deaths]
+
+        total_recovered = ['' if type(i) == float and math.isnan(i) else i for i in
+                           chart_data['TotalRecovered'].to_list()]
+        total_recovered = [i.replace(' ', '').replace(',', '') for i in total_recovered]
+        total_recovered = [int(i) if i != '' else 0 for i in total_recovered]
+
+        active_cases = ['' if type(i) == float and math.isnan(i) else i for i in
+                        chart_data['ActiveCases'].to_list()]
+        active_cases = [i.replace(' ', '').replace(',', '') for i in active_cases]
+        active_cases = [int(i) if i != '' else 0 for i in active_cases]
+
+        source = pd.DataFrame({
+            "Category": ["Total Deaths"] * len(total_deaths) + ["Total Recovered"] * len(total_recovered) +
+                        ["Active Cases"] * len(active_cases),
+            "Cases": total_deaths + total_recovered + active_cases,
+            "Country": chart_data['Country,Other'].tolist() * 3
+        })
+
+        st.altair_chart(alt.Chart(source).mark_bar().encode(
+            x="Country",
+            y="Cases",
+            color="Category:N",
+            tooltip=['Cases', "Category"]
+        ).interactive(), use_container_width=True)
+
 
 else:
     chart_options = ["Pie", "Bar", "Plot", "Map"]
