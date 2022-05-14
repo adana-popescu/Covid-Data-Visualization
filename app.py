@@ -12,7 +12,16 @@ options = ["All"] + df['Country,Other'].tolist()
 selection = st.selectbox('Country: ', options)
 
 if selection == "All":
-    st.write(all_df)
+    chart_options = ["Table", "Pie", "Bar"]
+    chart_selection = st.selectbox('Chart type:', chart_options)
+
+    if chart_selection == "Table":
+        st.write(all_df)
+    elif chart_selection=="Pie":
+        pass
+    elif chart_selection=="Bar":
+        pass
+
 else:
     chart_options = ["Pie", "Bar", "Plot", "Map"]
     chart_selection = st.selectbox('Chart type:', chart_options)
