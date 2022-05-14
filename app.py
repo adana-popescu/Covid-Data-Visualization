@@ -4,6 +4,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import altair as alt
+from crawler import crawl
+
+st.title("Welcome to Covid Data Visualization")
+
+if st.button("Get updated data"):
+    crawl()
 
 pie_chart_cols = ['Country,Other', 'TotalDeaths', 'TotalRecovered']
 df = pd.read_csv('covid-info.csv', usecols=pie_chart_cols)
