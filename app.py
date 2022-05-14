@@ -11,4 +11,8 @@ selection = st.selectbox('Country: ', options)
 df.set_index("Country,Other", inplace=True)
 data = df.loc[selection].tolist()
 
-labels = ['TotalDeaths', 'TotalRecovered']
+labels = ['value', 'type']
+
+pie_df = pd.DataFrame([(int(data[0].replace(',', '')), "Total Recovered"), (int(data[1].replace(',', '')), "Total Deaths")], columns=labels)
+fig = px.pie(pie_df, values='value', names='type', title='ad')
+st.plotly_chart(fig)
