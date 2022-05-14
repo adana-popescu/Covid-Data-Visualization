@@ -1,4 +1,5 @@
 import math
+import os
 
 import streamlit as st
 import pandas as pd
@@ -8,7 +9,7 @@ from crawler import crawl
 
 st.title("Welcome to Covid Data Visualization")
 
-if st.button("Get updated data"):
+if st.button("Get updated data") or not os.path.exists("covid-info.csv"):
     crawl()
 
 pie_chart_cols = ['Country,Other', 'TotalDeaths', 'TotalRecovered']
