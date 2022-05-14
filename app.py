@@ -87,7 +87,7 @@ if selection == "All":
 
 
 else:
-    chart_options = ["Pie", "Bar", "Plot", "Map"]
+    chart_options = ["Pie", "Bar"]
     chart_selection = st.selectbox('Chart type:', chart_options)
 
     if chart_selection == "Pie":
